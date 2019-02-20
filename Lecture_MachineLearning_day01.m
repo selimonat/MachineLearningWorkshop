@@ -18,10 +18,10 @@
 % space, voxel space, etc.). 
 % 
 subplot(2,1,1);
-imshow(imread('~/Desktop/MachineLearning/bin/PixelsSpace_BasisVectors.png'))
+imshow(imread('~/Desktop/MachineLearningWorkshop//bin/PixelsSpace_BasisVectors.png'))
 title('Basis Vectors for Pixel Space')
 subplot(2,1,2);
-imshow(imread('~/Desktop/MachineLearning/bin/PixelsSpace_BasisVectors_02.png'))
+imshow(imread('~/Desktop/MachineLearningWorkshop//bin/PixelsSpace_BasisVectors_02.png'))
 title('Weighted basis vectors')
 %%
 % And as a general rule data occupies only a
@@ -30,7 +30,7 @@ title('Weighted basis vectors')
 % to bring the data to a another space which is more efficient, more
 % compact. Linear algebra provides us how we can do this type of things.
 clf
-imshow(imread('~/Desktop/MachineLearning/bin/PossibleImages.png'))
+imshow(imread('~/Desktop/MachineLearningWorkshop//bin/PossibleImages.png'))
 title('Natural images occupy only a small portion of the pixel space')
 %% Example: Pixel Space of two-pixel images
 % An image patch of two pixels can be seen as one vector in a space where
@@ -93,7 +93,7 @@ plot_vectors(scaled_vector,'color','m')
 hold on;
 plot([X(1) scaled_vector(1)],[X(2) scaled_vector(2)],'r')
 axis square
-h = legend('Vector V','Data D','ScalarProduct(V,D)*V','OrthogonalDistance')
+h = legend('Vector V','Data D','ScalarProduct(V,D)*V','OrthogonalProjection')
 set(h,'location','northoutside')
 
 % Scalar product between two vectors is proportional to the projection of
@@ -139,8 +139,10 @@ title(sprintf('The length of vector [%0.1g %0.1g] is %0.3g',v(1),v(2),v_length))
 %
 % For two orthogonal vectors unit vectors, their scalar product will be equal to
 % zero.
-v = [ 0 1];
-y = [ 1 0];
+v = [ 2 4];
+v = v./sqrt(v*v');
+y = [ -2 5];
+y = y./sqrt(y*y')
 plot_vectors([v;y])
 title(sprintf('The angle between\nthese two vectors is %d degrees',round(rad2deg(acos(v*y')))));
 %% To find the angle between any two vectors we need to normalize each
@@ -170,7 +172,7 @@ clf;
 v     = randn(3,2);
 plot_vectors(v);
 % a rotation matrix rotates a vector with a given angle, it is defined as
-alpha = deg2rad(10);
+alpha = deg2rad(33);
 R     = [cos(alpha) sin(alpha);-sin(alpha) cos(alpha)]';
 v_r   = R*v';
 hold on;
@@ -190,6 +192,7 @@ title('Before Transformation');
 
 alpha = deg2rad(12);
 R     = [cos(alpha) sin(alpha);-sin(alpha) cos(alpha)]';%rotation
+R     = [2 0;0 1]';
 v_r   = R*v';%transform
 
 subplot(2,2,2);
@@ -276,7 +279,7 @@ y                = randn(number_of_trials,1);
 y                = y-mean(y);
 clf;
 total_panels     = 4;
-panels           = 1:total_panels;%randsample(1:total_panels,total_panels);
+panels           = randsample(1:total_panels,total_panels);
 h = [];
 for i = 1:total_panels
    D = [x y]*randn(2)*1.5;   
@@ -298,6 +301,7 @@ for i = 1:total_panels
 %    drawnow;
    axis square;
 end
+
 
 %% Variance across arbitrary directions
 %
@@ -374,7 +378,7 @@ end
     % vector with the covariance matrix of the data returns us the variance
     % along that direction.
 
-
+    
 %% We now know how to:
 % (1) rotate a vector, 
 % (2) project a cloud of dots to on that vector and 
@@ -399,7 +403,7 @@ end
 % the eigenvalue of the corresponding eigenvector v and equals the variance
 % along the corresponding eigenvector.
 %
-%% Example02: Let's illustrate the effect of eigenvector decomposition step by step.
+%% Example01: Let's illustrate the effect of eigenvector decomposition step by step.
 
 trow = 3;
 tcol = 2;
