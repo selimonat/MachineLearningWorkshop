@@ -1,13 +1,12 @@
 %% Day 2: Machine Learning Basics and Classification
 %
-%
 % Our motivation is to learn from data by building a model that generalizes
 % best to previously unseen observations.
 %
 %% Classification 
 % let's talk about this equation:
 %
-% 1*x+2*y = 0     ==> this is an equation of ...
+% 1*x+2*y = 0   ==> this is an equation of a line
 %
 % Pair of scalars x and y, that satisfies this equation form a line in 2d.
 %
@@ -30,7 +29,7 @@ y = x*(-w(1)/w(2));
 % corresponding y values for some arbitrary x values.
 vector_to_line = @(w,x) x*(-w(1)/w(2));
 % Furthermore, let's write another function to plot these x-y pairs.
-plot_line = @(w) plot(linspace(-5,5,100),vector_to_line(w,linspace(-5,5,100)),'k','linewidth',3);
+plot_line      = @(w) plot(linspace(-5,5,100),vector_to_line(w,linspace(-5,5,100)),'k','linewidth',3);
 % plot W and its corresponding line.
 clf;
 plot_vectors(w,'color','r');
@@ -53,7 +52,7 @@ set(h,'location','northoutside');
 % Furthermore, the scalar product of any vector with W gives us a nice
 % measure of perpendicular distance to the line. 
 % 
-X = [2 2];
+X = randn(1,2);
 hold on;
 plot(X(1),X(2),'bo');
 P = w*X'
@@ -113,7 +112,7 @@ T = [ones(length(C1),1);-ones(length(C1),1)];
 %
 
 lim  = round(max(abs(D(:)))*1.5);
-w    = [0 1];
+w    = [1 0];
 w    = w./sqrt(w*w');
 rate = .1;
 while 1

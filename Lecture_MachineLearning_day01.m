@@ -1,4 +1,4 @@
-%% (1) Day 1: Linear Algebra Basics and Principal Component Analysis
+%% Day 1: Linear Algebra Basics and Principal Component Analysis
 %
 % Concepts covered:
 %
@@ -17,11 +17,13 @@
 % We view data as vectors occupying a given space (sensor space, pixel
 % space, voxel space, etc.). 
 % 
+
+
 subplot(2,1,1);
-imshow(imread('~/Desktop/MachineLearningWorkshop//bin/PixelsSpace_BasisVectors.png'))
+imshow(imread('~/Desktop/MachineLearningWorkshop//bin/PixelsSpace_BasisVectors.png'));
 title('Basis Vectors for Pixel Space')
 subplot(2,1,2);
-imshow(imread('~/Desktop/MachineLearningWorkshop//bin/PixelsSpace_BasisVectors_02.png'))
+imshow(imread('~/Desktop/MachineLearningWorkshop//bin/PixelsSpace_BasisVectors_02.png'));
 title('Weighted basis vectors')
 %%
 % And as a general rule data occupies only a
@@ -77,23 +79,25 @@ ylabel('pixel 2');
 % 
 % We can think of Scalar product as a projection.
 clf;
-vector         = [ 1 1];                     % Create a vector
+vector         = [1 1];                     % Create a vector
 vector         = vector/sqrt(vector*vector') % Make its length equal to one
 plot_vectors(vector);                        % plot the vector
 hold on 
 
-X              = rand(1,2);                  % Create random points.
+X              = [0 1];%rand(1,2);                  % Create random points.
 plot_vectors(X,'color','r')                  % Plot the random points.
 hold on;
 
 
 scalar_product = vector*X';                  % compute the scalar product.
 scaled_vector  = scalar_product*vector;      % scale the vector with the scalar vectors.
-plot_vectors(scaled_vector,'color','m')
+try
+    plot_vectors(scaled_vector,'color','m')
+end
 hold on;
 plot([X(1) scaled_vector(1)],[X(2) scaled_vector(2)],'r')
 axis square
-h = legend('Vector V','Data D','ScalarProduct(V,D)*V','OrthogonalProjection')
+h = legend('Vector V','Data D','ScalarProduct(V,D)*V','OrthogonalProjection');
 set(h,'location','northoutside')
 
 % Scalar product between two vectors is proportional to the projection of
@@ -127,6 +131,7 @@ title(sprintf('The length of vector [%0.1g %0.1g] is %0.3g',v(1),v(2),v_length))
 % The fundamental equation for scalar product between two random vectors:
 %
 % x dot y = length(x)*length(y)*cos(alpha)
+% x dot y / length(x)*length(y) = cos(alpha)
 %
 % This means three things. The scalar product between x and y is
 % proportional to
@@ -163,13 +168,12 @@ plot_vectors([v;y],'color','r')
 title(sprintf('The angle between these two vectors is %0.3g degrees',(rad2deg(acos(v*y')))));
 %% Linear Transformation
 %
-% 
 % In simple words, a linear transformation is a function that maps one
 % position in one space to another one in another space.
 %
 % Example: One basic transformation is rotation with a given angle.
 clf;
-v     = randn(3,2);
+v     = [0 1];%randn(3,2);
 plot_vectors(v);
 % a rotation matrix rotates a vector with a given angle, it is defined as
 alpha = deg2rad(33);
@@ -249,8 +253,9 @@ x'*y/number_of_trials %
 % neat matrix format.
 
 fprintf('Data matrix D multiplied by itself:\n')
-D = [x y];
+D = [x y]; % data matrix
 C = D'*D/number_of_trials
+C = cov(D)
 
 fprintf('Matlab''s cov() function (uses slightly different normalization):\n')
 cov(x,y)
@@ -279,7 +284,7 @@ y                = randn(number_of_trials,1);
 y                = y-mean(y);
 clf;
 total_panels     = 4;
-panels           = randsample(1:total_panels,total_panels);
+panels           = 1:total_panels;%randsample(1:total_panels,total_panels);
 h = [];
 for i = 1:total_panels
    D = [x y]*randn(2)*1.5;   
