@@ -37,7 +37,7 @@ title('Natural images occupy only a small portion of the pixel space')
 %% Example: Pixel Space of two-pixel images
 % An image patch of two pixels can be seen as one vector in a space where
 % pixel values are dimensions. 
-
+figure;
 v = randn(50,2)*2;
 
 subplot(1,2,1)

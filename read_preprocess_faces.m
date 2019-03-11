@@ -33,6 +33,7 @@ for i = 1:number_of_images
     % Code your preprocessing steps here:
     % Apply your preprocessing steps to the CURRENT_IMAGE and store the
     % result in IMAGES matrix below.
+    %imresize, rgb2gray
 %     images(:,:,:,i)   = current_image;    
 end
 % Return emotional_code as a matrix where each column is one expression and

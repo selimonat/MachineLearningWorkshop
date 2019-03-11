@@ -101,8 +101,8 @@ set(h,'location','bestoutside')
 % We have to come up with a way of finding the best decision boundary to
 % separate classes.
 % 
-C1 = randn(10,2)-1;% class 1
-C2 = randn(10,2)+1;% class 2
+C1 = randn(10,2)-2;% class 1
+C2 = randn(10,2)+2;% class 2
 
 D = [C1;C2];
 T = [ones(length(C1),1);-ones(length(C1),1)];
@@ -112,7 +112,7 @@ T = [ones(length(C1),1);-ones(length(C1),1)];
 %
 
 lim  = round(max(abs(D(:)))*1.5);
-w    = [1 0];
+w    = [1 0.2];
 w    = w./sqrt(w*w');
 rate = .1;
 while 1
@@ -199,7 +199,7 @@ for angle = 1:360
         axis equal;set(gca,'xlim',[-5 5],'ylim',[-5 5])            
         
 %         (D*w_rotated-T)'*(D*w_rotated-T)        
-        error(angle) = (D*w_rotated-T)'*(D*w_rotated-T);        
+        error(angle) = (D*w_rotated-T)'*(D*w_rotated-T);
 %         error(angle) = trace((W*D' - T)'*(W*D' - T))
         
         subplot(1,2,2);        
@@ -324,7 +324,7 @@ plot_normal_and_line([ w -min_distance])
 % The purpose of cross-validation is model checking ==> We want to se
 %% Different types of cross-validation
 %
-% k-fold CV: 
+% k-fold CV:
 % Partitions data into k randomly chosen subsets (or folds) of
 % roughly equal size. One subset is used to validate the model trained
 % using the remaining subsets. This process is repeated k times such that
@@ -378,3 +378,30 @@ plot_normal_and_line([ w -min_distance])
 % required to reach the best classification performance. I would like to
 % stir up some discussion on how classification performance depends on the
 % number of principal components that are used during learning.
+
+clear all;
+path_to_data = '~/Desktop/MachineLearningWorkshop/';
+load(fullfile(path_to_data,'face_database_ready.mat'));
+%% Sanity checks: Plot your raw image matrix and see if you have everything as expected. 
+% Is there an image that is too bright, or too dark? If necessary go back
+% to read_preprocess_faces.m and implement the required image processing
+% step.
+clf;
+imagesc(im);
+colorbar;
+ylabel('images');
+xlabel('dimensions');
+%% Compute the covariance matrix and eigenvector decomposition.
+C     = cov(im);            % compute covariance matrix
+[e v] = eig(C);             % eigenvector decomposition
+%flip everything left to right so that it is more intuitive to index.
+v     = flipud(diag(abs(v)));   
+e     = fliplr(e);
+e_inv = inv(e);
+%Q: on which dataset we compute the PCA analysis?
+%% Project faces to the eigenspace and whiten
+P     = e(:,1:250)'*im';
+v2    = diag(v(1:250));
+v_inv = sqrt(inv(v2));
+Pw    = P'*v_inv;
+%%
